@@ -1,17 +1,22 @@
 package com.km.projects.PostAndComments.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.km.projects.PostAndComments.comment.Comment;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Data
+@Table(name = "posts")
+@Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_seq")
@@ -21,7 +26,7 @@ public class Post {
     private String title;
     private String author;
 
-    @OneToMany(mappedBy = "post")
-    @JoinColumn(name = "comment_id")
-    private Set<Comment> comments = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "postId")
+    private List<Comment> comments;
 }
