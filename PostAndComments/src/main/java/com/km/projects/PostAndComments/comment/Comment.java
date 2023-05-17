@@ -9,8 +9,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "comments")
-@Getter
-@Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment {
     @Id
