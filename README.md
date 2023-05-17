@@ -1,7 +1,7 @@
 # Post and comments.
-Api for task/notification management in factory.
+Api for post and comments.
 
-Purpose of the project: CV,learning
+Purpose of the project: learning
 
 Technologies :
 - java
