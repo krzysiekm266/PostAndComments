@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "comments")
@@ -20,5 +21,6 @@ public class Comment {
     private Long postId;
     private String author;
     private String content;
+    private Date timestamp = new Date(System.currentTimeMillis());
 
 }

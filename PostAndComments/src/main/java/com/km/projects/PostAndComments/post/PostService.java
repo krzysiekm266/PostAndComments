@@ -23,6 +23,7 @@ public class PostService {
         Page<Post> pagePosts = this.postRepository.findAll(PageRequest.of(page,size));
         List<Comment> allComments = this.commentRepository.findAll();
         List<Post> allPostWithCommentsPaged = PostDtoMapper.mapToPostWithComments(pagePosts.toList(),allComments);
+
         return allPostWithCommentsPaged;
     }
 

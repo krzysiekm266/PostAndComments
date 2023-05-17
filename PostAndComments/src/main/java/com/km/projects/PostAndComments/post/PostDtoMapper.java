@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
 public class PostDtoMapper {
     public static final List<Post> mapToPostWithComments(List<Post> posts,List<Comment> comments) {
         return posts.stream()
-                .map(post -> mapToPostDto(post))
+                .map(post -> mapPostToPostDto(post))
                 .map(post -> mapCommentsToPost(post,comments))
                 .collect(Collectors.toList());
     }
-    private static PostDto mapToPostDto(Post post) {
+    private static PostDto mapPostToPostDto(Post post) {
         return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())

@@ -2,9 +2,10 @@ package com.km.projects.PostAndComments.post;
 
 import com.km.projects.PostAndComments.comment.Comment;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,6 +27,7 @@ public class Post {
     @NotBlank(message = "Please enter valid post author.")
     private String author;
 
+    private Date timestamp = new Date(System.currentTimeMillis());
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "postId")
     private List<Comment> comments;
