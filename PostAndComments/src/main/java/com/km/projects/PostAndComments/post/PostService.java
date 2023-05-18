@@ -19,6 +19,10 @@ import java.util.Set;
 public class PostService {
     private final PostRepository postRepository;
     private  final CommentRepository commentRepository;
+
+    public List<Post> getAllPosts() {
+        return this.postRepository.findAll();
+    }
     public List<Post> getAllPostsPaged(int page, int size) {
         Page<Post> pagePosts = this.postRepository.findAll(PageRequest.of(page,size));
         List<Comment> allComments = this.commentRepository.findAll();
