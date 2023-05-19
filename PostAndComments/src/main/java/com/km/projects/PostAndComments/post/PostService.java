@@ -22,7 +22,7 @@ public class PostService {
 
     public List<PostDto> getAllPostsPaged(Pageable pageable) {
         Page<Post> pagedPosts = this.postRepository.findAll(pageable);
-        return PostDtoMapper.mapToPosts(pagedPosts.toList());
+        return PostDtoMapper.mapPostsToPostDto(pagedPosts.toList());
     }
 
     public List<Post> getAllPostsPagedWithComments(Pageable pageable) {

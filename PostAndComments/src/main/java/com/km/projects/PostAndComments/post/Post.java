@@ -18,7 +18,6 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_seq")
     @SequenceGenerator(name = "post_seq",sequenceName = "post_seq",allocationSize = 1)
-    @Column(columnDefinition = "SERIAL")
     private Long id;
 
     @NotBlank(message = "Please enter valid post title.")
@@ -28,9 +27,13 @@ public class Post {
     @NotBlank(message = "Please enter valid post author.")
     private String author;
 
-    private Date timestamp = new Date(System.currentTimeMillis());
+    private final Date timestamp = new Date(System.currentTimeMillis());
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "postId")
     private List<Comment> comments;
+
+    public final long getTimestampMilisec() {
+        return this.timestamp != null ? this.timestamp.getTime() : new Date(System.currentTimeMillis()).getTime();
+    }
 }

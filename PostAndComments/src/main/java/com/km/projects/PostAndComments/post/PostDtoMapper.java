@@ -15,7 +15,7 @@ public class PostDtoMapper {
                 .map(post -> mapCommentsToPost(post,comments))
                 .collect(Collectors.toList());
     }
-    public static final List<PostDto> mapToPosts(List<Post> posts) {
+    public static final List<PostDto> mapPostsToPostDto(List<Post> posts) {
         return posts.stream()
                 .map(post -> mapPostToPostDto(post))
                 .collect(Collectors.toList());
@@ -25,6 +25,7 @@ public class PostDtoMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .author(post.getAuthor())
+                .timestamp(post.getTimestamp())
                 .build();
     }
     private static  Post mapCommentsToPost(PostDto post,List<Comment> comments) {

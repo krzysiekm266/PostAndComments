@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,20 +22,23 @@ public class PostController {
     public ResponseEntity<List<PostDto>> getAllPostsPaged(
             @RequestParam(required = false) Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(defaultValue = "desc") String sortDirection
+            @RequestParam(defaultValue = "desc") String sortDirection,
+             @RequestParam(defaultValue = "id") String sortBy
     ) {
         pageNumber = (pageNumber == null || pageNumber <= 0) ? 1 : pageNumber;
 
+//        PageRequest pageRequestSorted = PageRequest.of(
+//                --pageNumber,
+//                pageSize,
+//                PostSort.by(sortBy,sortDirection)
+//        );
         PageRequest pageRequestSorted = PageRequest.of(
                 --pageNumber,
                 pageSize,
-                PostSort.by(Post::getTitle,sortDirection)
+                Sort.Direction.fromString(sortDirection),
+                new String[]{"title","author"}
         );
-//        switch (sort) {
-//            case "DESC" -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getTimestamp).descending());
-//            case "ASC" -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getTimestamp).ascending());
-//            default -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getId).descending());
-//        }
+
         return new ResponseEntity<>(this.postService.getAllPostsPaged(pageRequestSorted),HttpStatus.OK);
     }
 
