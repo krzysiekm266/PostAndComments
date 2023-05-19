@@ -20,22 +20,15 @@ public class PostService {
     private final PostRepository postRepository;
     private  final CommentRepository commentRepository;
 
-    public List<Post> getAllPosts() {
-        return this.postRepository.findAll();
-    }
-    public List<Post> getAllPostsPaged(int page, int size) {
-        Page<Post> pagePosts = this.postRepository.findAll(PageRequest.of(page,size));
-        List<Comment> allComments = this.commentRepository.findAll();
-        List<Post> allPostWithCommentsPaged = PostDtoMapper.mapToPostWithComments(pagePosts.toList(),allComments);
-
-        return allPostWithCommentsPaged;
+    public List<PostDto> getAllPostsPaged(Pageable pageable) {
+        Page<Post> pagedPosts = this.postRepository.findAll(pageable);
+        return PostDtoMapper.mapToPosts(pagedPosts.toList());
     }
 
-    public List<Post> getAllPostsWithComments() {
-        List<Post> allPosts =  this.postRepository.findAll();
+    public List<Post> getAllPostsPagedWithComments(Pageable pageable) {
+        Page<Post> allPosts =  this.postRepository.findAll(pageable);
         List<Comment> allComments = this.commentRepository.findAll();
-        List<Post> allPostWithComments = PostDtoMapper.mapToPostWithComments(allPosts,allComments);
-        return allPostWithComments;
+        return  PostDtoMapper.mapToPostsWithComments(allPosts.toList(),allComments);
     }
 
     public Post getSinglePost(Long postId) {

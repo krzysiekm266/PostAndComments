@@ -9,10 +9,15 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostDtoMapper {
-    public static final List<Post> mapToPostWithComments(List<Post> posts,List<Comment> comments) {
+    public static final List<Post> mapToPostsWithComments(List<Post> posts,List<Comment> comments) {
         return posts.stream()
                 .map(post -> mapPostToPostDto(post))
                 .map(post -> mapCommentsToPost(post,comments))
+                .collect(Collectors.toList());
+    }
+    public static final List<PostDto> mapToPosts(List<Post> posts) {
+        return posts.stream()
+                .map(post -> mapPostToPostDto(post))
                 .collect(Collectors.toList());
     }
     private static PostDto mapPostToPostDto(Post post) {

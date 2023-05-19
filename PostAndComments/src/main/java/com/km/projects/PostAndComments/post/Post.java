@@ -18,6 +18,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_seq")
     @SequenceGenerator(name = "post_seq",sequenceName = "post_seq",allocationSize = 1)
+    @Column(columnDefinition = "SERIAL")
     private Long id;
 
     @NotBlank(message = "Please enter valid post title.")
@@ -28,6 +29,7 @@ public class Post {
     private String author;
 
     private Date timestamp = new Date(System.currentTimeMillis());
+
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "postId")
     private List<Comment> comments;
