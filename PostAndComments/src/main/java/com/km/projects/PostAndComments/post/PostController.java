@@ -77,6 +77,7 @@ public class PostController {
     }
     @PostMapping("/posts/{id}/comments")
     public ResponseEntity<CreateCommentResponse> createPostComment(
+
             @NotNull(message = "Please enter valid post id.")
             @Min(value = 1,message = "Please enter valid post id(min: 1).")
             @PathVariable("id")
