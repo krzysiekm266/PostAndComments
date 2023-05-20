@@ -1,4 +1,4 @@
-package com.km.projects.PostAndComments.post.exceptions;
+package com.km.projects.PostAndComments.post.exception;
 
 import com.km.projects.PostAndComments.post.PostController;
 import org.springframework.http.HttpStatus;

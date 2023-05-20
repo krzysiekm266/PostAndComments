@@ -1,4 +1,4 @@
-package com.km.projects.PostAndComments.post;
+package com.km.projects.PostAndComments.post.mapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

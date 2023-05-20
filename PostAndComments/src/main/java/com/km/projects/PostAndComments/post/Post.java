@@ -27,13 +27,13 @@ public class Post {
     @NotBlank(message = "Please enter valid post author.")
     private String author;
 
-    private final Date timestamp = new Date(System.currentTimeMillis());
+    private Date timestamp ;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JoinColumn(name = "postId")
     private List<Comment> comments;
 
-    public final long getTimestampMilisec() {
-        return this.timestamp != null ? this.timestamp.getTime() : new Date(System.currentTimeMillis()).getTime();
-    }
+//    public final long getTimestampMilisec() {
+//        return this.timestamp != null ? this.timestamp.getTime() : new Date(System.currentTimeMillis()).getTime();
+//    }
 }

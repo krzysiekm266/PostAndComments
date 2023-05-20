@@ -1,6 +1,9 @@
 package com.km.projects.PostAndComments.post;
 
 
+import com.km.projects.PostAndComments.post.mapper.PostDto;
+import com.km.projects.PostAndComments.post.request.CreatePostRequest;
+import com.km.projects.PostAndComments.post.response.CreatePostResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -9,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -18,42 +21,37 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    private PageRequest preparePageRequest(Integer page,Integer size, String direction,String sortBy) {
+        page = (page == null || page <= 0) ? 1 : page;
+        String[] sortByFields  = sortBy.split(",");
+        PageRequest pageRequestSorted = PageRequest.of(
+                --page,
+                size,
+                Sort.Direction.fromString(direction),
+                sortByFields
+        );
+        return pageRequestSorted;
+    }
     @GetMapping("/posts")
     public ResponseEntity<List<PostDto>> getAllPostsPaged(
-            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
             @RequestParam(defaultValue = "desc") String sortDirection,
-             @RequestParam(defaultValue = "id") String sortBy
+            @RequestParam(defaultValue = "timestamp") String sortBy
     ) {
-        pageNumber = (pageNumber == null || pageNumber <= 0) ? 1 : pageNumber;
-
-//        PageRequest pageRequestSorted = PageRequest.of(
-//                --pageNumber,
-//                pageSize,
-//                PostSort.by(sortBy,sortDirection)
-//        );
-        PageRequest pageRequestSorted = PageRequest.of(
-                --pageNumber,
-                pageSize,
-                Sort.Direction.fromString(sortDirection),
-                new String[]{"title","author"}
-        );
+        PageRequest pageRequestSorted = preparePageRequest(pageNumber,pageSize,sortDirection,sortBy);
 
         return new ResponseEntity<>(this.postService.getAllPostsPaged(pageRequestSorted),HttpStatus.OK);
     }
 
     @GetMapping("/posts/comments")
     public ResponseEntity<List<Post>> getAllPostsPagedWithComments(
-            @RequestParam(required = false) Integer pageNumber,
+            @RequestParam(defaultValue = "0") Integer pageNumber,
             @RequestParam(defaultValue = "10") Integer pageSize,
-            @RequestParam(required = false) String sort
+            @RequestParam(defaultValue = "desc") String sortDirection,
+            @RequestParam(defaultValue = "timestamp") String sortBy
     ) {
-        PageRequest pageRequestSorted = PageRequest.of(--pageNumber, pageSize);
-        switch (sort) {
-            case "DESC" -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getTimestamp).descending());
-            case "ASC" -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getTimestamp).ascending());
-            default -> pageRequestSorted.getSortOr( Sort.sort(Post.class).by(Post::getId).descending());
-        }
+        PageRequest pageRequestSorted = preparePageRequest(pageNumber,pageSize,sortDirection,sortBy);
         return new ResponseEntity<>(this.postService.getAllPostsPagedWithComments(pageRequestSorted), HttpStatus.OK);
     }
 
@@ -64,12 +62,9 @@ public class PostController {
     }
 
     @PostMapping("/posts")
-    public ResponseEntity<PostDto> createPost(@RequestBody @Valid Post post) {
-        Post createdPost = this.postService.createPost(post);
-        PostDto postDto = PostDto.builder()
-                .title(post.getTitle())
-                .author(post.getAuthor())
-                .build();
-        return new ResponseEntity<>(postDto,HttpStatus.CREATED);
+    public ResponseEntity<CreatePostResponse> createPost(@RequestBody @Valid CreatePostRequest request) {
+        CreatePostResponse response = this.postService.createPost(request);
+
+        return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 }

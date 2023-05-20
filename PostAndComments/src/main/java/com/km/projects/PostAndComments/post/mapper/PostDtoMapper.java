@@ -1,6 +1,7 @@
-package com.km.projects.PostAndComments.post;
+package com.km.projects.PostAndComments.post.mapper;
 
 import com.km.projects.PostAndComments.comment.Comment;
+import com.km.projects.PostAndComments.post.Post;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostDtoMapper {
-    public static final List<Post> mapToPostsWithComments(List<Post> posts,List<Comment> comments) {
+    public static final List<Post> mapToPostsWithComments(List<Post> posts, List<Comment> comments) {
         return posts.stream()
                 .map(post -> mapPostToPostDto(post))
                 .map(post -> mapCommentsToPost(post,comments))
