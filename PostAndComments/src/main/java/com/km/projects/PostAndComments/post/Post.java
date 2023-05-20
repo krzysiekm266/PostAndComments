@@ -3,8 +3,10 @@ package com.km.projects.PostAndComments.post;
 import com.km.projects.PostAndComments.comment.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -16,24 +18,24 @@ import java.util.List;
 @AllArgsConstructor
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "post_seq")
-    @SequenceGenerator(name = "post_seq",sequenceName = "post_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long id;
 
     @NotBlank(message = "Please enter valid post title.")
-   // @Min(value = 4,message = "Post title must have min.4 characters.")
+    @Size(min = 4,message = "Post title must have min.4 characters.")
+    @Column(name = "post_title")
     private String title;
 
     @NotBlank(message = "Please enter valid post author.")
+    @Column(name = "post_author")
     private String author;
 
+    @Column(name = "post_created")
     private Date timestamp ;
 
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "postId")
+    @JoinColumn(name = "comment_post_id")
     private List<Comment> comments;
 
-//    public final long getTimestampMilisec() {
-//        return this.timestamp != null ? this.timestamp.getTime() : new Date(System.currentTimeMillis()).getTime();
-//    }
 }

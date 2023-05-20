@@ -29,6 +29,7 @@ public class PostDtoMapper {
                 .timestamp(post.getTimestamp())
                 .build();
     }
+
     private static  Post mapCommentsToPost(PostDto post,List<Comment> comments) {
         List<Comment> commentsByPostId = comments.stream()
                 .filter(comment -> comment.getPostId() == post.getId())
@@ -38,6 +39,7 @@ public class PostDtoMapper {
                 .id(post.getId())
                 .title(post.getTitle())
                 .author(post.getAuthor())
+                .timestamp(post.getTimestamp())
                 .comments(commentsByPostId)
                 .build();
     }

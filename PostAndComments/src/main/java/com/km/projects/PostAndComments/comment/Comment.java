@@ -12,15 +12,24 @@ import java.util.Date;
 @Table(name = "comments")
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "comment_seq")
-    @SequenceGenerator(name = "comment_seq",sequenceName = "comment_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
     private Long id;
 
+    @Column(name = "comment_post_id")
     private Long postId;
-    private String author;
+
+    @Column(name = "comment_content")
     private String content;
-    private Date timestamp = new Date(System.currentTimeMillis());
+
+    @Column(name = "comment_author")
+    private String author;
+
+    @Column(name = " comment_created")
+    private Date timestamp ;
 
 }

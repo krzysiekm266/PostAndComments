@@ -27,13 +27,15 @@ public class PostService {
         return PostDtoMapper.mapPostsToPostDto(pagedPosts.toList());
     }
 
-    public List<Post> getAllPostsPagedWithComments(Pageable pageable) {
-        Page<Post> allPosts =  this.postRepository.findAll(pageable);
-        List<Comment> allComments = this.commentRepository.findAll();
-        return  PostDtoMapper.mapToPostsWithComments(allPosts.toList(),allComments);
+    public List<Post> getAllPostsPagedWithComments(Pageable postPageable,Pageable commentsPageable) {
+        List<Post> allPosts =  this.postRepository.findAll(postPageable)
+                .stream().toList();
+        List<Comment> allComments = this.commentRepository.findAll(commentsPageable)
+                .stream().toList();
+        return  PostDtoMapper.mapToPostsWithComments(allPosts,allComments);
     }
 
-    public Post getSinglePost(Long postId) {
+    public Post getSinglePostWithComments(Long postId) {
         return this.postRepository.findById(postId)
                     .orElseThrow(() -> new PostNotFoundException("Post by ID: " + postId + " not found."));
     }
@@ -44,6 +46,6 @@ public class PostService {
                 .author(createRequest.getAuthor())
                 .timestamp(new Date(System.currentTimeMillis()))
                 .build();
-        return  new CreatePostResponse(this.postRepository.save(post));
+        return  new CreatePostResponse( this.postRepository.save(post) );
     }
 }
