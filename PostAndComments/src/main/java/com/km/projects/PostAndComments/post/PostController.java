@@ -1,7 +1,6 @@
 package com.km.projects.PostAndComments.post;
 
 
-import com.km.projects.PostAndComments.comment.Comment;
 import com.km.projects.PostAndComments.comment.CommentService;
 import com.km.projects.PostAndComments.post.mapper.PostDto;
 import com.km.projects.PostAndComments.post.request.CreateCommentRequest;
@@ -17,8 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
