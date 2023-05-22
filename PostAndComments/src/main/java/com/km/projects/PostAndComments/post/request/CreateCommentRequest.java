@@ -15,11 +15,11 @@ import java.util.Date;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CreateCommentRequest {
 
-    @NotBlank(message = "Please enter valid comment")
-    @Size(min = 6,message = "Please enter valid comment. Min. characters in comment must be : 6")
+    @NotBlank(message = "Please enter a valid comment")
+    @Size(min = 6,message = "Please enter a valid comment. Min. characters in comment must be : 6")
     private String content;
 
-    @NotBlank(message = "Please enter valid comment author.")
+    @NotBlank(message = "Please enter a valid comment author.")
     private String author;
 
 }

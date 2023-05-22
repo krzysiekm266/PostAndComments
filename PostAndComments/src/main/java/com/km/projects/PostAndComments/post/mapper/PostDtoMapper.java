@@ -21,7 +21,7 @@ public class PostDtoMapper {
                 .map(post -> mapPostToPostDto(post))
                 .collect(Collectors.toList());
     }
-    private static PostDto mapPostToPostDto(Post post) {
+    public static PostDto mapPostToPostDto(Post post) {
         return PostDto.builder()
                 .id(post.getId())
                 .title(post.getTitle())
@@ -30,7 +30,7 @@ public class PostDtoMapper {
                 .build();
     }
 
-    private static  Post mapCommentsToPost(PostDto post,List<Comment> comments) {
+    public static  Post mapCommentsToPost(PostDto post,List<Comment> comments) {
         List<Comment> commentsByPostId = comments.stream()
                 .filter(comment -> comment.getPostId() == post.getId())
                 .collect(Collectors.toList());

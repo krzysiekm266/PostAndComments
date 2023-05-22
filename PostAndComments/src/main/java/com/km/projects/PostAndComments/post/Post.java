@@ -24,7 +24,7 @@ public class Post {
 
     @NotBlank(message = "Please enter valid post title.")
     @Size(min = 4,message = "Post title must have min.4 characters.")
-    @Column(name = "post_title")
+    @Column(name = "post_title",unique = true)
     private String title;
 
     @NotBlank(message = "Please enter valid post author.")

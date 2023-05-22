@@ -6,7 +6,9 @@ import com.km.projects.PostAndComments.post.exception.PostNotFoundException;
 import com.km.projects.PostAndComments.post.mapper.PostDto;
 import com.km.projects.PostAndComments.post.mapper.PostDtoMapper;
 import com.km.projects.PostAndComments.post.request.CreatePostRequest;
+import com.km.projects.PostAndComments.post.request.UpdatePostRequest;
 import com.km.projects.PostAndComments.post.response.CreatePostResponse;
+import com.km.projects.PostAndComments.post.response.UpdatePostResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,17 +37,31 @@ public class PostService {
         return  PostDtoMapper.mapToPostsWithComments(allPosts,allComments);
     }
 
-    public Post getSinglePostWithComments(Long postId) {
-        return this.postRepository.findById(postId)
-                    .orElseThrow(() -> new PostNotFoundException("Post by ID: " + postId + " not found."));
+    public Post getSinglePost(Long id) {
+        return this.postRepository.findById(id)
+                    .orElseThrow(() -> new PostNotFoundException("Post by ID: " + id + " not found."));
     }
-
-    public CreatePostResponse createPost(CreatePostRequest createRequest) {
+    public Post getSinglePostWithComments(Long id) {
+        Post post = this.postRepository.findById(id)
+                .orElseThrow( () -> new PostNotFoundException("Post by ID: " + id + " not found."));
+        PostDto postDto = PostDtoMapper.mapPostToPostDto(post);
+        List<Comment> comments = this.commentRepository.findByPostId(id);
+        return PostDtoMapper.mapCommentsToPost(postDto,comments);
+    }
+    public CreatePostResponse createPost(CreatePostRequest request) {
         Post post = Post.builder()
-                .title(createRequest.getTitle())
-                .author(createRequest.getAuthor())
+                .title(request.getTitle())
+                .author(request.getAuthor())
                 .timestamp(new Date(System.currentTimeMillis()))
                 .build();
         return  new CreatePostResponse( this.postRepository.save(post) );
+    }
+
+    public UpdatePostResponse updatePost(Long id,UpdatePostRequest request) {
+        Post post = this.postRepository.findById(id)
+                .orElseThrow( () -> new PostNotFoundException("Post by ID: " + id + " not found."));
+                post.setTitle(request.getTitle());
+                this.postRepository.flush();
+        return  new UpdatePostResponse(post);
     }
 }

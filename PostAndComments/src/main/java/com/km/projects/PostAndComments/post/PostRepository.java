@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostRepository extends JpaRepository<Post,Long> {
-    @Override
-    @Query("select p from Post p left join fetch p.comments where p.id = :id ")
-    Optional<Post> findById(@Param("id") Long id);
+//    @Override
+//    @Query("select p from Post p left join fetch p.comments where p.id = :id ")
+//    Optional<Post> findById(@Param("id") Long id);
 
 
 

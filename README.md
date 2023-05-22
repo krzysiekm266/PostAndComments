@@ -1,5 +1,5 @@
 # Post and comments.
-Api for post and comments.
+Api(REST) for post and comments.
 
 Purpose of the project: learning
 
