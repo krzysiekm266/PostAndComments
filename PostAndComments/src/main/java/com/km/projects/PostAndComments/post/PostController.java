@@ -4,10 +4,10 @@ package com.km.projects.PostAndComments.post;
 import com.km.projects.PostAndComments.comment.CommentService;
 import com.km.projects.PostAndComments.post.mapper.PostDto;
 import com.km.projects.PostAndComments.post.mapper.PostDtoMapper;
-import com.km.projects.PostAndComments.post.request.CreateCommentRequest;
+import com.km.projects.PostAndComments.comment.request.CreateCommentRequest;
 import com.km.projects.PostAndComments.post.request.CreatePostRequest;
 import com.km.projects.PostAndComments.post.request.UpdatePostRequest;
-import com.km.projects.PostAndComments.post.response.CreateCommentResponse;
+import com.km.projects.PostAndComments.comment.response.CreateCommentResponse;
 import com.km.projects.PostAndComments.post.response.CreatePostResponse;
 import com.km.projects.PostAndComments.post.response.UpdatePostResponse;
 import jakarta.validation.Valid;
@@ -26,7 +26,6 @@ import java.util.List;
 @RequestMapping("/api")
 public class PostController {
     private final PostService postService;
-    private final CommentService commentService;
 
     private PageRequest preparePageRequest(Integer page,Integer size, String direction,String sortBy) {
         page = (page == null || page <= 0) ? 1 : page;
@@ -87,18 +86,6 @@ public class PostController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
     }
 
-    @PostMapping("/posts/{id}/comments")
-    public ResponseEntity<CreateCommentResponse> createPostComment(
-            @NotNull(message = "Please use a  valid post id.")
-            @Min(value = 1,message = "Please use a valid post id(min: 1).")
-            @PathVariable
-            Long id,
-
-            @RequestBody @Valid CreateCommentRequest request
-    ) {
-        CreateCommentResponse response = this.commentService.createPostComment(id,request);
-        return new ResponseEntity<>(response,HttpStatus.CREATED);
-    }
 
     @PutMapping("/posts/{id}")
     public ResponseEntity<UpdatePostResponse> updatePost(
@@ -111,10 +98,7 @@ public class PostController {
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    @PutMapping("/posts/{postId}/comments/{commentId}")
-    public ResponseEntity<?> updatePostComment() {
-        throw  new RuntimeException("Not implemented yet.");
-    }
+
     @DeleteMapping("/posts/{id}")
     public void deletePost() {
         throw  new RuntimeException("Not implemented yet.");

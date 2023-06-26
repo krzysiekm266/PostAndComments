@@ -1,4 +1,4 @@
-package com.km.projects.PostAndComments.post.response;
+package com.km.projects.PostAndComments.comment.response;
 
 import com.km.projects.PostAndComments.comment.Comment;
 import lombok.*;

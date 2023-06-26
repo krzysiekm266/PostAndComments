@@ -1,4 +1,4 @@
-package com.km.projects.PostAndComments.post.request;
+package com.km.projects.PostAndComments.comment.request;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.Min;
